@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body { 
+    background-color: rgb(238, 185, 185);
+}
+
+button  { 
+    border: 6px solid #000;
+        background-color: aqua;
+}
