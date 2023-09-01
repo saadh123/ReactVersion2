@@ -3,7 +3,6 @@ import "./index.css";
 import Images from "./components/Images";
 
 function App() {
-  const [title, setTitle] = useState("Hello React");
   // const [isShowing, setisShowing] = useState(false);
 
   // function handleClick() {
@@ -14,7 +13,6 @@ function App() {
     <section className="flex justify-center">
       <div className="w-10/12">
         <div className="text-center">
-          <div className="my-4">{title}</div>
           <Images />
         </div>
         {/* <button
