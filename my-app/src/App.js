@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./index.css";
 import Images from "./components/Images";
 
@@ -27,19 +27,6 @@ function App() {
     </section>
   );
 }
-
-// class App extends React.Component {
-//   // constructor(props) {
-//   //   super(props);
-//   //   this.state = { title: "HelloReact 2", isShowing: false };
-//   // }
-
-//   render() {
-//     return (
-
-//     );
-//   }
-// }
 
 // // function App() {
 // //   const [title, setTitle] = useState("Hello React");

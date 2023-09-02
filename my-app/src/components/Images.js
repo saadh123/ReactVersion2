@@ -1,58 +1,18 @@
 // import React, { useLayoutEffect } from "react";
-import { useEffect, useState, useRef, useLayoutEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "./Image";
-import Axios from "axios";
-import useScroll from "../utils/hooks/useScroll";
+import useFetchImage from "../utils/hooks/useFetchImage";
+import { Loading } from "./Loading";
+import InfiniteScroll from "react-infinite-scroll-component";
+import useDebounce from "../utils/hooks/useDebounce";
 
 export default function Images() {
-  const [images, setImages] = useState([]);
-
-  const scrollPosition = useScroll();
-
-  const inputRef = useRef(null);
-
-  const varRef = useRef(images.length);
-
-  // const [updateCount, setUpdateCount] = useState(0); - INIFINITE LOOP
-
-  //useRef doesn't re render and value persists
-
-  //useEffect = waits for component to render on screen
-  //useLayoutEffect = doesn't wait for component to render on screen, runs as soon as component is rendered simultanousely
-  //useRef doesn't cause a re render
-
-  useEffect(() => {
-    inputRef.current.focus();
-    Axios.get(
-      `${process.env.REACT_APP_UNSPLASH_URL}?client_id=${process.env.REACT_APP_UNSPLASH_KEY}`
-    ).then((res) => {
-      // console.log(res.data);
-      setImages(res.data);
-    });
-  }, []);
-
-  // useEffect(() => {
-  //   varRef.current = varRef.current + 1;
-  //   // setUpdateCount(updateCount + 1); - INIFINITE LOOP
-  // });
-
-  // const [myName, setMyName] = useState("Sarthak");
-
-  useEffect(() => {
-    varRef.current = varRef.current + 1;
-  });
-
-  // useEffect(() => {
-  //   setMyName("Reactjs");
-  //   console.log("I am useEffect 1");
-  // });
-
-  // useLayoutEffect(() => {
-  //   setMyName("Reactjs");
-  //   console.log("I am useLayeffect 2");
-  // });
-
-  const [newImageURL, setNewImageUrl] = useState("");
+  const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState(null);
+  const [images, setImages, errors, isLoading] = useFetchImage(
+    page,
+    searchTerm
+  );
 
   function handleRemove(index) {
     // setImages(images.filter((image, i) => i !== index));
@@ -64,57 +24,47 @@ export default function Images() {
   }
 
   function ShowImage() {
-    return images.map((img, index) => (
-      <Image
-        index={index}
-        image={img.urls.regular}
-        handleRemove={handleRemove}
-        key={index}
-      />
-    ));
-  }
-  function handleChange(e) {
-    setNewImageUrl(e.target.value);
+    return (
+      <InfiniteScroll
+        dataLength={images.length}
+        next={() => setPage(page + 1)}
+        hasMore={true}
+        className="flex flex-wrap"
+      >
+        {images.map((img, index) => (
+          <Image
+            index={index}
+            image={img.urls.regular}
+            handleRemove={handleRemove}
+            key={index}
+          />
+        ))}
+      </InfiniteScroll>
+    );
   }
 
-  function handleAdd() {
-    if (newImageURL !== "") {
-      setImages([newImageURL, ...images]);
-      setNewImageUrl("");
-    }
+  const debounce = useDebounce();
+  function handleInput(e) {
+    const text = e.target.value;
+    debounce(() => setSearchTerm(text));
   }
-
   return (
     <section>
-      {scrollPosition}
-
-      <p>Component is updated {varRef.current} times</p>
-      <div className="flex flex-wrap justify-center">
-        <ShowImage />
+      <div className="my-5">
+        <input
+          type="text"
+          onChange={handleInput}
+          className="w-full border rounded shadow p-2"
+          placeholder="Search Photos Here"
+        />
       </div>
-      <div className="flex justify-between my-5">
-        <div className="w-full">
-          <input
-            ref={inputRef}
-            id="inputBox"
-            type="text"
-            value={newImageURL}
-            onChange={handleChange}
-            className="p-2 border border-gray-800 shadow rounded w-full"
-          />
+      {errors && errors.length > 0 && (
+        <div className="flex h-screen">
+          <p className="m-auto">{errors[0]}</p>
         </div>
-        <div className="">
-          <button
-            disabled={newImageURL === ""}
-            className={`p-2 text-white ml-2 ${
-              newImageURL !== "" ? "bg-green-600" : "bg-green-300"
-            }`}
-            onClick={handleAdd}
-          >
-            Add
-          </button>
-        </div>
-      </div>
+      )}
+      <ShowImage />
+      {isLoading && <Loading />};
     </section>
   );
 }
