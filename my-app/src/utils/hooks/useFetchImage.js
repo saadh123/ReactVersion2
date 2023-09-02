@@ -8,12 +8,12 @@ export default function useFetchImage(page, searchTerm) {
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  function fetchSearch() {
-    Axios.get(
-      `${api}/search/photos?client_id=${secret}&page=${page}&query=${searchTerm}`
-    )
+  function fetch() {
+    const url =
+      searchTerm === null ? "photos?" : `search/photos?query=${searchTerm}&`;
+    Axios.get(`${api}/${url}client_id=${secret}&page=${page}`)
       .then((res) => {
-        setImages([...res.data.results]);
+        searchTerm === null ? fetchRandom(res) : fetchSearch(res);
 
         setIsLoading(false);
       })
@@ -23,30 +23,25 @@ export default function useFetchImage(page, searchTerm) {
       });
   }
 
-  function fetchRandom() {
-    Axios.get(`${api}/photos?client_id=${secret}&page=${page}`)
-      .then((res) => {
-        setImages([...images, ...res.data]);
+  function fetchSearch(res) {
+    page > 1
+      ? setImages([...images, ...res.data.results])
+      : setImages([...res.data.results]);
+  }
 
-        setIsLoading(false);
-      })
-      .catch((e) => {
-        setErrors(e.response.data.errors);
-        setIsLoading(false);
-      });
+  function fetchRandom(res) {
+    setImages([...images, ...res.data]);
   }
   useEffect(() => {
     setIsLoading(true);
 
-    if (searchTerm !== null) {
-      fetchSearch();
-    } else {
-      fetchRandom();
-    }
-  }, [page]);
+    fetch();
+  }, [page, searchTerm]);
 
-  useEffect(() => {
-    fetchSearch();
-  }, [searchTerm]);
+  // useEffect(() => {
+  //   if (searchTerm === null) return;
+  //   setIsLoading(true);
+  //   fetch();
+  // }, [searchTerm]);
   return [images, setImages, errors, isLoading];
 }
