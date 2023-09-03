@@ -1,55 +1,22 @@
 import React from "react";
 import "./index.css";
-import Images from "./components/Images";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import routes from "./utils/hooks/routes";
+import { Header } from "./components/Header";
 
-function Gallery() {
-  return (
-    <section className="flex justify-center">
-      <div className="w-10/12">
-        <div className="text-center">
-          <Images />
-        </div>
-        {/* <button
-      className="p-1 bg-blue-700 text-white my-2"
-      onClick={handleClick}
-    >
-      Toggle Image
-    </button>
-
-    {isShowing ? <Images /> : null} */}
-      </div>
-    </section>
-  );
-}
-
-function Home() {
-  return (
-    <div className="flex h-screen">
-      <h1 className="m-auto text-3xl">Welcome Home</h1>
-    </div>
-  );
-}
-
-function Login() {
-  return (
-    <div className="flex h-screen">
-      <h1 className="m-auto text-3xl">Login Page</h1>
-    </div>
-  );
-}
-
+//when exporting a default function, don't need to destructure
 function App() {
   return (
     <Router>
+      <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-      </Routes>
-      <Routes>
-        <Route path="/gallery" element={<Gallery />} />
+        {routes.map((route, index) => (
+          <Route
+            key={index} // Add a unique key for each route
+            path={route.path}
+            element={route.component()} // Use element instead of component
+          />
+        ))}
       </Routes>
     </Router>
   );
