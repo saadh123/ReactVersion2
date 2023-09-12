@@ -1,5 +1,6 @@
 import React from "react";
 import Images from "../components/Images";
+import Images2 from "../components/Images2";
 
 export default function Gallery() {
   return (
@@ -8,14 +9,6 @@ export default function Gallery() {
         <div className="text-center">
           <Images />
         </div>
-        {/* <button
-        className="p-1 bg-blue-700 text-white my-2"
-        onClick={handleClick}
-      >
-        Toggle Image
-      </button>
-  
-      {isShowing ? <Images /> : null} */}
       </div>
     </section>
   );

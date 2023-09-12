@@ -11,15 +11,6 @@ export default function Image({ index, image, handleRemove }) {
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
-        {/* // function handleMouseEnter(index) {
-  //   setIsHovering(true);
-  // }
-
-  // function handleMouseLeave(index) {
-  //   setIsHovering(false);
-  // }
-  //use this method if not wanting to use a callback within onmousenter/onmouseleave */}
-
         <i
           className={`fas fa-times absolute right-0 cursor-pointer opacity-25 hover:opacity-100 ${
             isHovering ? "" : "hidden"
@@ -30,4 +21,14 @@ export default function Image({ index, image, handleRemove }) {
       </div>
     </div>
   );
+}
+
+{
+  /* // function handleMouseEnter(index) {
+  //   setIsHovering(true);
+  // }
+  // function handleMouseLeave(index) {
+  //   setIsHovering(false);
+  // }
+  //use this method if not wanting to use a callback within onmousenter/onmouseleave */
 }

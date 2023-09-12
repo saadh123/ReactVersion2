@@ -1,4 +1,3 @@
-// import React, { useLayoutEffect } from "react";
 import { useEffect, useState } from "react";
 import Image from "./Image";
 import useFetchImage from "../utils/hooks/useFetchImage";
@@ -44,6 +43,7 @@ export default function Images() {
   }
 
   const debounce = useDebounce();
+  
   function handleInput(e) {
     const text = e.target.value;
     debounce(() => setSearchTerm(text));

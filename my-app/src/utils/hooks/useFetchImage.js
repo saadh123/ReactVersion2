@@ -32,16 +32,13 @@ export default function useFetchImage(page, searchTerm) {
   function fetchRandom(res) {
     setImages([...images, ...res.data]);
   }
+
   useEffect(() => {
     setIsLoading(true);
-
     fetch();
   }, [page, searchTerm]);
 
-  // useEffect(() => {
-  //   if (searchTerm === null) return;
-  //   setIsLoading(true);
-  //   fetch();
-  // }, [searchTerm]);
+
+  
   return [images, setImages, errors, isLoading];
 }
