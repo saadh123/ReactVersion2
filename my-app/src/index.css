@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-body { 
-    background-color: rgb(238, 185, 185);
+body {
+  background-color: rgb(75, 58, 58);
 }
 
-button  { 
-    border: 6px solid #000;
-        background-color: aqua;
+button {
+  border: 6px solid #000;
+  background-color: aqua;
 }

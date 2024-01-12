@@ -11,10 +11,11 @@ export default function useFetchImage(page, searchTerm) {
   function fetch() {
     const url =
       searchTerm === null ? "photos?" : `search/photos?query=${searchTerm}&`;
+
     Axios.get(`${api}/${url}client_id=${secret}&page=${page}`)
       .then((res) => {
+        console.log("RES", res);
         searchTerm === null ? fetchRandom(res) : fetchSearch(res);
-
         setIsLoading(false);
       })
       .catch((e) => {
@@ -38,7 +39,5 @@ export default function useFetchImage(page, searchTerm) {
     fetch();
   }, [page, searchTerm]);
 
-
-  
   return [images, setImages, errors, isLoading];
 }
