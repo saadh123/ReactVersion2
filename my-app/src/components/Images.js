@@ -21,7 +21,7 @@ export default function Images() {
     ]);
   }
 
-  function ShowImage() {
+  const ShowImage = () => {
     return (
       <InfiniteScroll
         dataLength={images.length}
@@ -39,13 +39,13 @@ export default function Images() {
         ))}
       </InfiniteScroll>
     );
-  }
+  };
 
   const debounce = useDebounce();
 
   function handleInput(e) {
     const text = e.target.value;
-    debounce(setSearchTerm(text));
+    debounce(() => setSearchTerm(text));
   }
 
   // What it accomplishes here: When the user types in an input field, the handleInput function is called on each keystroke. However, instead of immediately setting the search term for each keystroke, the debounce function is used to wait for a short period of inactivity (defined by the wait parameter, which defaults to 1000 milliseconds or 1 second). This helps to prevent unnecessary and rapid calls to setSearchTerm, optimizing the performance and responsiveness of the application.

@@ -8,6 +8,8 @@ export default function useFetchImage(page, searchTerm) {
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  console.log(images, "IMAGES");
+
   function fetch() {
     const url =
       searchTerm === null ? "photos?" : `search/photos?query=${searchTerm}&`;
