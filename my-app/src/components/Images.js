@@ -22,24 +22,58 @@ export default function Images() {
   }
 
   const ShowImage = () => {
-    return (
-      <InfiniteScroll
-        dataLength={images.length}
-        next={() => setPage(page + 1)}
-        hasMore={true}
-        className="flex flex-wrap"
-      >
-        {images.map((img, index) => (
+    return  ( 
+    images.map((img, index) => (
           <Image
             index={index}
             image={img.urls.regular}
             handleRemove={handleRemove}
             key={index}
           />
-        ))}
-      </InfiniteScroll>
-    );
+        )))
+    // return (
+    //   <InfiniteScroll
+    //     dataLength={images.length}
+    //     next={() => setPage(page + 1)}
+    //     hasMore={true}
+    //     className="flex flex-wrap"
+    //   >
+      // let content =  images.map((img, index) => (
+      //     <Image
+      //       index={index}
+      //       image={img.urls.regular}
+      //       handleRemove={handleRemove}
+      //       key={index}
+      //     />
+      //   ))
+
+      //   return content
+    //   </InfiniteScroll>
+    // );
   };
+
+
+  // const ShowImage = ({images}) => {
+  
+  //   let content = "";
+
+  //   if(images.length > 0) {
+  //     content = images.map((img, index) => (
+  //       <Image
+  //         index={index}
+  //         image={img.urls.regular}
+  //         handleRemove={handleRemove}
+  //         key={index}
+  //       />
+  //     ));
+  //   }
+
+  //   return (
+  //     content
+  //   );
+  // };
+
+
 
   const debounce = useDebounce();
 
@@ -66,7 +100,16 @@ export default function Images() {
         </div>
       )}
       <ShowImage />
-      {isLoading && <Loading />};
+     {/* {images.map((img, index) => (
+          <Image
+            index={index}
+            image={img.urls.regular}
+            handleRemove={handleRemove}
+            key={index}
+          />
+        ))}  */}
+        
+        {isLoading && <Loading />};
     </section>
   );
 }
